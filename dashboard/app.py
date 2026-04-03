@@ -241,7 +241,7 @@ else:
     weather_col1, weather_col2, weather_col3 = st.columns(3)
     weather_col1.metric("Temperature actuelle", format_temperature(weather_snapshot.get("temperature_c")))
     weather_col2.metric("Risque de pluie", format_rain(weather_snapshot.get("rain_probability")))
-    weather_col3.metric("Condition meteo", weather_snapshot.get("weather_condition") or "indisponible")
+    weather_col3.metric("Condition meteo", weather_snapshot.get("weather_condition"))
 
     st.write("")
 
