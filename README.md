@@ -41,6 +41,8 @@ Le projet peut etre lance :
 |   |-- load_postgres.py
 |   |-- scrape_weather.py
 |   `-- traitement.py
+|-- tests/
+|   `-- test_app.py
 |-- .env.example
 |-- docker-compose.yml
 |-- notebook.py
@@ -369,7 +371,30 @@ Si le script automatique marche mieux que l'execution manuelle, prefere :
 - La meteo est un snapshot partage par toutes les stations au moment du scraping.
 - Le graphe pluie dans le dashboard represente donc l'usage des stations sous un meme contexte meteo courant.
 
-## 14. Commandes resumees
+## 14. Tests unitaires
+
+Les tests couvrent les fonctions pures du dashboard : `format_temperature`, `format_rain`, `usage_label` et `load_bike_data`.
+
+### Lancer les tests
+```powershell
+python -m pytest tests/test_app.py -v
+```
+
+### Ce qui est teste
+
+| Fonction | Cas couverts |
+|---|---|
+| `format_temperature` | valeur normale, zero, negatif, entier, NaN, None, pd.NA |
+| `format_rain` | valeur normale, zero, 100%, float tronque, NaN, None, pd.NA |
+| `usage_label` | chaque seuil exact (0.4 / 0.6 / 0.8), valeurs entre seuils, zero, valeur negative |
+| `load_bike_data` | source PostgreSQL, fallback parquet sur erreur DB, fallback parquet sur DB vide, tri decroissant, colonnes retournees |
+
+### Dependance requise
+```powershell
+pip install pytest
+```
+
+## 15. Commandes resumees
 
 ### Installation
 ```powershell
