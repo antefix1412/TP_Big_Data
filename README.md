@@ -12,6 +12,7 @@ Le pipeline fait 5 choses :
 
 Le projet peut etre lance :
 - soit en une seule commande avec `run_pipeline.ps1`
+- soit de maniere planifiee avec Airflow toutes les 2 minutes
 - soit etape par etape si tu veux comprendre ou deboguer chaque partie
 
 ## Technologies utilisees
@@ -23,12 +24,18 @@ Le projet peut etre lance :
 - Streamlit
 - Plotly
 - Docker Compose
+- Apache Airflow
 
 ## Structure du projet
 ```text
 .
 |-- dashboard/
 |   `-- app.py
+|-- airflow/
+|   |-- dags/
+|   |   `-- velostar_pipeline_dag.py
+|   |-- logs/
+|   `-- plugins/
 |-- data/
 |   |-- eda/
 |   |-- processed/
@@ -46,7 +53,8 @@ Le projet peut etre lance :
 |-- notebook.py
 |-- README.md
 |-- requirements.txt
-`-- run_pipeline.ps1
+|-- run_pipeline.ps1
+`-- start_airflow.ps1
 ```
 
 ## Fonctionnement du pipeline
@@ -193,6 +201,42 @@ Ce script :
 - execute le traitement Spark
 - charge les donnees dans PostgreSQL
 - lance le dashboard Streamlit
+
+## 7.b Automatiser le pipeline avec Airflow
+Une stack Airflow Docker est fournie pour relancer le pipeline ETL toutes les 2 minutes.
+
+Le DAG execute :
+- `src/get_api.py`
+- `src/scrape_weather.py`
+- `notebook.py`
+- `src/traitement.py`
+- `src/load_postgres.py`
+
+Le planning Airflow est :
+- `*/2 * * * *`
+
+### Demarrer Airflow
+```powershell
+.\start_airflow.ps1
+```
+
+Puis ouvre :
+- `http://localhost:8080`
+
+Identifiants par defaut :
+- utilisateur : `admin`
+- mot de passe : `admin`
+
+### Services ajoutes dans Docker Compose
+- `airflow-postgres` : base metadata d'Airflow
+- `airflow-init` : initialise la base et cree l'utilisateur admin
+- `airflow-webserver` : interface web Airflow
+- `airflow-scheduler` : planification et execution du DAG
+
+### Important
+- Le DAG Airflow recharge les donnees en base toutes les 2 minutes.
+- Le dashboard Streamlit n'est pas redemarre toutes les 2 minutes, mais il lira les nouvelles donnees rechargees.
+- Dans les conteneurs Airflow, PostgreSQL applicatif est resolu via `postgres:5432`, meme si sur ta machine il reste expose en `localhost:5433`.
 
 ## 8. Lancer le projet manuellement, etape par etape
 Si tu preferes tout faire toi-meme :
@@ -383,6 +427,13 @@ docker compose up -d
 ### Pipeline complet
 ```powershell
 .\run_pipeline.ps1
+```
+
+### Airflow
+```powershell
+.\start_airflow.ps1
+docker compose logs -f airflow-scheduler
+docker compose down
 ```
 
 ### Pipeline manuel
