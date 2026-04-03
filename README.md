@@ -102,14 +102,8 @@ Avant de lancer le projet, il faut idealement avoir :
 Dans un terminal PowerShell :
 
 ```powershell
-git clone <URL_DU_REPO>
+git clone https://github.com/antefix1412/TP_Big_Data.git
 cd "<nom-du-dossier>"
-```
-
-Si le projet est deja sur ta machine, place-toi juste dans le dossier racine :
-
-```powershell
-cd "C:\chemin\vers\le\projet"
 ```
 
 ## 2. Creer l'environnement virtuel
@@ -119,13 +113,6 @@ py -3.12 -m venv .venv
 
 ## 3. Activer l'environnement virtuel
 ```powershell
-.venv\Scripts\Activate.ps1
-```
-
-Si PowerShell bloque l'activation avec une erreur de politique d'execution :
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .venv\Scripts\Activate.ps1
 ```
 
@@ -151,8 +138,6 @@ Copie le fichier d'exemple :
 ```powershell
 Copy-Item .env.example .env
 ```
-
-Tu peux ensuite modifier `.env` si besoin.
 
 ### Variables importantes dans `.env`
 - `BIKE_API_URL` : endpoint API velo
@@ -189,7 +174,7 @@ Pour verifier que le conteneur tourne :
 docker ps
 ```
 
-Le service defini dans [docker-compose.yml](/Users/antoine/Documents/b2/Big%20Data/docker-compose.yml) expose PostgreSQL sur `localhost:5433`.
+Le service defini dans [docker-compose.yml](docker-compose.yml) expose PostgreSQL sur `localhost:5433`.
 
 ## 7. Lancer tout le projet automatiquement
 Le plus simple est d'utiliser le script PowerShell fourni :

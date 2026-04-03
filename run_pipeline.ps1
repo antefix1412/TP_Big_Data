@@ -47,6 +47,12 @@ if (-not (Test-Path $envFile)) {
 
 $dockerAvailable = $null -ne (Get-Command docker -ErrorAction SilentlyContinue)
 if ($dockerAvailable) {
+    Write-Step "Build des services Docker"
+    docker compose build
+    if ($LASTEXITCODE -ne 0) {
+        throw "Impossible de builder les services Docker."
+    }
+
     Write-Step "Demarrage de PostgreSQL avec Docker"
     docker compose up -d
     if ($LASTEXITCODE -ne 0) {
