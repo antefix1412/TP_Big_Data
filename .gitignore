@@ -3,3 +3,16 @@
 .env.*
 !.env.example
 !.env.sample
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Data outputs
+data/raw/
+data/processed/
+data/eda/
+
+# Streamlit
+.streamlit/secrets.toml

@@ -1,0 +1,12 @@
+python-dotenv
+requests
+beautifulsoup4
+matplotlib
+pandas
+pyarrow
+sqlalchemy
+psycopg2-binary
+pg8000
+pyspark
+streamlit
+plotly
