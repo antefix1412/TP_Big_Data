@@ -7,12 +7,33 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.egg-info/
 .venv/
+venv/
+.python-version
+.pytest_cache/
 
 # Data outputs
 data/raw/
 data/processed/
 data/eda/
+*.parquet
+*.jsonl
+*.csv
 
 # Streamlit
 .streamlit/secrets.toml
+
+# IDE/editor
+.vscode/
+.idea/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
